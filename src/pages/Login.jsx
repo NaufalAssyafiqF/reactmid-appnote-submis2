@@ -1,18 +1,30 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
+import { login } from "../utils/fetch-data";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
 
   const navigate = useNavigate();
 
-  const onSubmitHandler = (event) => {
+  console.log({ email: emailValue, password: passwordValue });
+
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    navigate("/");
+    const reqBody = {
+      email: emailValue,
+      password: passwordValue,
+    };
+
+    const getData = await login(reqBody);
+    if (getData.error === false) {
+      navigate("/");
+    }
   };
+
   return (
     <div className="mx-20 mb-20">
       <Header />
@@ -37,13 +49,13 @@ const Login = () => {
               type="text"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your Name..."
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmailValue(e.target.value)}
             />
             <input
               type="text"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your Email..."
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPasswordValue(e.target.value)}
             />
             <div className="flex justify-end mt-10">
               <button

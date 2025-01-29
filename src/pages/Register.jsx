@@ -22,7 +22,7 @@ const Register = () => {
           className={`flex items-center rounded-t-lg border-x-2 border-t-2 border-black  w-fit p-1 bg-[#8BD3DD] `}
         >
           <p className="text-black font-comfortaa font-medium text-lg px-2 py-3">
-            Add New Note
+            Fill the form to register
           </p>
         </div>
         <div
