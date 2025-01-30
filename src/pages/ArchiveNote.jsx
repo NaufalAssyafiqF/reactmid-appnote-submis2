@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import CardNote from "../components/CardNote";
 import AddButton from "../components/AddButton";
-import { getArchivedNotes } from "../utils/local-data";
+import { getArchivedNotes } from "../utils/fetch-data";
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 
@@ -21,18 +21,29 @@ const ArchiveNote = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    if (!keyword) {
-      setActiveNotes(getArchivedNotes());
-    }
+    const getNoteData = async () => {
+      const getFetch = await getArchivedNotes();
+      if (!keyword) {
+        setActiveNotes(getFetch.data);
+      }
+    };
 
-    handleQuery(keyword);
+    getNoteData();
+  }, []);
 
-    const searchNote = getArchivedNotes().filter((note) =>
-      note.title.toLowerCase().includes(keyword.toLowerCase())
-    );
+  // useEffect(() => {
+  //   if (!keyword) {
+  //     setActiveNotes(getArchivedNotes());
+  //   }
 
-    setActiveNotes(searchNote);
-  }, [keyword]);
+  //   handleQuery(keyword);
+
+  //   const searchNote = getArchivedNotes().filter((note) =>
+  //     note.title.toLowerCase().includes(keyword.toLowerCase())
+  //   );
+
+  //   setActiveNotes(searchNote);
+  // }, [keyword]);
 
   return (
     <div className="mx-20 mb-20">

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import CardNote from "../components/CardNote";
 import AddButton from "../components/AddButton";
-import { getActiveNotes } from "../utils/local-data";
+// import { getActiveNotes } from "../utils/local-data";
+import { getActiveNotes } from "../utils/fetch-data";
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 
@@ -21,18 +22,29 @@ const ActiveNote = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    if (!keyword) {
-      setActiveNotes(getActiveNotes());
-    }
+    const getNoteData = async () => {
+      const getFetch = await getActiveNotes();
+      if (!keyword) {
+        setActiveNotes(getFetch.data);
+      }
+    };
 
-    handleQuery(keyword);
+    getNoteData();
+  }, []);
 
-    const searchNote = getActiveNotes().filter((note) =>
-      note.title.toLowerCase().includes(keyword.toLowerCase())
-    );
+  // useEffect(() => {
+  //   if (!keyword) {
+  //     setActiveNotes(getActiveNotes());
+  //   }
 
-    setActiveNotes(searchNote);
-  }, [keyword]);
+  //   handleQuery(keyword);
+
+  //   const searchNote = getActiveNotes().filter((note) =>
+  //     note.title.toLowerCase().includes(keyword.toLowerCase())
+  //   );
+
+  //   setActiveNotes(searchNote);
+  // }, [keyword]);
 
   return (
     <div className="mx-20 mb-20">
