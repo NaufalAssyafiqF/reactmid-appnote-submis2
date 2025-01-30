@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addNote } from "../utils/local-data";
+import { addNote } from "../utils/fetch-data";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 

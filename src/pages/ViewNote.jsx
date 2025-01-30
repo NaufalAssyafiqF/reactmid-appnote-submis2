@@ -1,35 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiSolidArchiveIn, BiSolidArchiveOut } from "react-icons/bi";
 import { MdDeleteForever } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  archiveNote,
-  deleteNote,
   getNote,
+  deleteNote,
+  archiveNote,
   unarchiveNote,
-} from "../utils/local-data";
+} from "../utils/fetch-data";
 import { showFormattedDate } from "../utils";
 import Header from "../components/Header";
 
 const ViewNote = () => {
   const { id } = useParams();
-  const [getNoteByid, setGetNoteByid] = useState(getNote(id));
+  const [getNoteByid, setGetNoteByid] = useState({});
   const navigate = useNavigate();
   const textDate = showFormattedDate(getNoteByid.createdAt);
 
-  const onDeleteHandler = () => {
-    deleteNote(id);
+  console.log(getNoteByid);
+
+  const onDeleteHandler = async () => {
+    await deleteNote(id);
     alert("Note Deleted Successfully");
     getNoteByid.archived ? navigate("/archive") : navigate("/");
   };
 
-  const onChangeStatusHandler = () => {
-    getNoteByid.archived ? unarchiveNote(id) : archiveNote(id);
+  const onChangeStatusHandler = async () => {
+    getNoteByid.archived ? await unarchiveNote(id) : await archiveNote(id);
     alert(
       `Note ${getNoteByid.archived ? "unarchived" : "archived"} Successfully`
     );
     getNoteByid.archived ? navigate("/archive") : navigate("/");
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const getFetch = await getNote(id);
+      setGetNoteByid(getFetch.data);
+    };
+
+    getData();
+  }, []);
 
   return (
     <div className="mx-20 mb-20">
