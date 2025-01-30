@@ -24,27 +24,24 @@ const ActiveNote = () => {
   useEffect(() => {
     const getNoteData = async () => {
       const getFetch = await getActiveNotes();
-      if (!keyword) {
-        setActiveNotes(getFetch.data);
-      }
+      setActiveNotes(getFetch.data); // Ambil data awal hanya sekali
     };
 
     getNoteData();
   }, []);
 
-  // useEffect(() => {
-  //   if (!keyword) {
-  //     setActiveNotes(getActiveNotes());
-  //   }
+  useEffect(() => {
+    const filterNotes = async () => {
+      const getFetch = await getActiveNotes(); // Ambil data dari fungsi getActiveNotes
+      const searchNote = getFetch.data.filter((note) =>
+        note.title.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setActiveNotes(searchNote); // Update state dengan hasil filter
+    };
 
-  //   handleQuery(keyword);
-
-  //   const searchNote = getActiveNotes().filter((note) =>
-  //     note.title.toLowerCase().includes(keyword.toLowerCase())
-  //   );
-
-  //   setActiveNotes(searchNote);
-  // }, [keyword]);
+    handleQuery(keyword);
+    filterNotes();
+  }, [keyword]);
 
   return (
     <div className="mx-20 mb-20">
