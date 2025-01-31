@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import BtnNavigation from "./BtnNavigation";
 import LineBar from "./LineBar";
-import { useLocation } from "react-router-dom";
-import { IoLanguage } from "react-icons/io5";
-import { MdOutlineLightMode, MdOutlineNightlightRound } from "react-icons/md";
-import { IoMdExit } from "react-icons/io";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getUserLogged } from "../utils/fetch-data";
+import UserTopbar from "./UserTopbar";
 
 const Header = () => {
   const { pathname } = useLocation();
   const [getData, setGetData] = useState();
+
+  
 
   useEffect(() => {
     const getUserData = async () => {
@@ -39,22 +39,7 @@ const Header = () => {
         ) : null}
       </div>
       <LineBar />
-      <div className="flex items-center space-x-8 top-5 right-0 fixed mr-20 z-10">
-        <div className="flex space-x-4 text-3xl">
-          <div className="border-2 border-black p-1 rounded-lg cursor-pointer transition duration-300 shadow-[9px_5px_0px_0px_rgba(0,_0,_0,_0.8)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
-            <IoLanguage />
-          </div>
-          <div className="border-2 border-black p-1 rounded-lg cursor-pointer transition duration-300 shadow-[9px_5px_0px_0px_rgba(0,_0,_0,_0.8)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
-            <MdOutlineLightMode />
-          </div>
-          <div className="border-2 border-black p-1 rounded-lg cursor-pointer transition duration-300 shadow-[9px_5px_0px_0px_rgba(0,_0,_0,_0.8)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
-            <IoMdExit />
-          </div>
-        </div>
-        <div className="border-2 border-black py-1 px-2 rounded-lg item-cente flex items-center shadow-[9px_5px_0px_0px_rgba(0,_0,_0,_0.8)] ">
-          <p className="text-2xl font-bold font-comfortaa r">{getData?.name}</p>
-        </div>
-      </div>
+      {getData && <UserTopbar getData={getData} />}
     </header>
   );
 };

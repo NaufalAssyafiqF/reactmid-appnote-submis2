@@ -1,17 +1,35 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
+import { register } from "../utils/fetch-data";
 
 const Register = () => {
-  const [titleValue, setTitleValue] = useState("");
-  const [bodyValue, setBodyValue] = useState("");
+  const [nameValue, setNameValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [password2Value, setPassword2Value] = useState("");
 
   const navigate = useNavigate();
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    navigate("/login");
+    if (passwordValue !== password2Value) {
+      return alert("Passwords do not match");
+    }
+
+    const reqBody = {
+      name: nameValue,
+      email: emailValue,
+      password: passwordValue,
+    };
+
+    const getData = await register(reqBody);
+
+    if (getData.error === false) {
+      alert("Registered Successfully");
+      navigate("/login");
+    }
   };
 
   return (
@@ -38,25 +56,25 @@ const Register = () => {
               type="text"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your Name..."
-              onChange={(e) => setTitleValue(e.target.value)}
+              onChange={(e) => setNameValue(e.target.value)}
             />
             <input
-              type="text"
+              type="email"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your Email..."
-              onChange={(e) => setTitleValue(e.target.value)}
+              onChange={(e) => setEmailValue(e.target.value)}
             />
             <input
-              type="text"
+              type="password"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your Password..."
-              onChange={(e) => setTitleValue(e.target.value)}
+              onChange={(e) => setPasswordValue(e.target.value)}
             />
             <input
-              type="text"
+              type="password"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Confirm Your Password..."
-              onChange={(e) => setTitleValue(e.target.value)}
+              onChange={(e) => setPassword2Value(e.target.value)}
             />
 
             <div className="flex justify-end mt-10">
