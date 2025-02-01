@@ -4,13 +4,15 @@ import CardNote from "../components/CardNote";
 import AddButton from "../components/AddButton";
 // import { getActiveNotes } from "../utils/local-data";
 import { getActiveNotes } from "../utils/fetch-data";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 
 const ActiveNote = () => {
   const [activeNotes, setActiveNotes] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const navigate = useNavigate();
 
   const handleQuery = (keyword) => {
     setSearchParams({ keyword });
@@ -24,6 +26,12 @@ const ActiveNote = () => {
   useEffect(() => {
     const getNoteData = async () => {
       const getFetch = await getActiveNotes();
+
+      if (getFetch.error) {
+        alert("you are not logged in yet, please login first");
+        return navigate("/login");
+      }
+
       setActiveNotes(getFetch.data); // Ambil data awal hanya sekali
     };
 
@@ -44,7 +52,7 @@ const ActiveNote = () => {
   }, [keyword]);
 
   return (
-    <div className="mx-20 mb-20">
+    <div className="mx-20 pb-20">
       <Header />
       <SearchBar setKeyword={setKeyword} />
       <div className="flex flex-wrap gap-x-8 gap-y-8">

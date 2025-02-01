@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { addNote } from "../utils/fetch-data";
+import React, { useEffect, useState } from "react";
+import { addNote, getUserLogged } from "../utils/fetch-data";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 
@@ -15,8 +15,22 @@ const AddNote = () => {
     addNote(newNote);
     navigate("/");
   };
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const user = await getUserLogged();
+
+      if(user.error) {
+        alert("you are not logged in yet, please login first");
+        return navigate("/login");
+      }
+    };
+
+    checkLogin();
+  }, []);
+
   return (
-    <div className="mx-20 mb-20">
+    <div className="mx-20 pb-20">
       <Header />
       <div className="max-w-[90%] mx-auto h-fit flex flex-col items-start  rounded-lg">
         <div

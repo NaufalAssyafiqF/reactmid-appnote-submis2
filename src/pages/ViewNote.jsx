@@ -36,6 +36,12 @@ const ViewNote = () => {
   useEffect(() => {
     const getData = async () => {
       const getFetch = await getNote(id);
+
+      if (getFetch.error) {
+        alert("you are not logged in yet, please login first");
+        return navigate("/login");
+      }
+
       setGetNoteByid(getFetch.data);
     };
 
@@ -43,7 +49,7 @@ const ViewNote = () => {
   }, []);
 
   return (
-    <div className="mx-20 mb-20">
+    <div className="mx-20 pb-20">
       <Header />
       <div className="max-w-[90%] mx-auto h-fit flex flex-col items-start  rounded-lg">
         <div

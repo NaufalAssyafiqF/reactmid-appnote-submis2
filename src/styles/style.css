@@ -8,3 +8,10 @@
   box-sizing: border-box;
 }
 
+.bg-light {
+  @apply bg-white transition duration-300;
+}
+
+.bg-dark {
+  @apply bg-[#6f6f6f] transition duration-300;
+}

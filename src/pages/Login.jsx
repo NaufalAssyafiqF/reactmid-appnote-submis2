@@ -26,7 +26,7 @@ const Login = () => {
   };
 
   return (
-    <div className="mx-20 mb-20">
+    <div className="mx-20 pb-20">
       <Header />
       <div className="max-w-[90%] mx-auto h-fit flex flex-col items-start  rounded-lg">
         <div
