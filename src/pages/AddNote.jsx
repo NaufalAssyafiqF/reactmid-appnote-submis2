@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import LineBar from "../components/LineBar";
 import GlobalState from "../contexts/GlobalState";
+import useInput from "../hooks/useInput";
 
 const AddNote = () => {
-  const [titleValue, setTitleValue] = useState("");
-  const [bodyValue, setBodyValue] = useState("");
+  const [titleValue, titleValueHandler] = useInput("");
+  const [bodyValue, bodyValueHandler] = useInput("");
   const { language } = useContext(GlobalState);
 
   const navigate = useNavigate();
@@ -35,7 +36,10 @@ const AddNote = () => {
   return (
     <div className="mx-20 pb-20">
       <Header />
-      <LineBar text={language === "en" ? "Add Note" : "Tambah Catatan"} bgColor="bg-[#8BD3DD]" />
+      <LineBar
+        text={language === "en" ? "Add Note" : "Tambah Catatan"}
+        bgColor="bg-[#8BD3DD]"
+      />
       <div className="max-w-[90%] mx-auto h-fit flex flex-col items-start  rounded-lg">
         <div
           className={`flex items-center rounded-t-lg border-x-2 border-t-2 border-black  w-fit p-1 bg-[#8BD3DD] `}
@@ -56,14 +60,22 @@ const AddNote = () => {
             <input
               type="text"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
-              placeholder={language === "en" ? "Enter Your Title..." : "Masukan Judul Catatan..."}
-              onChange={(e) => setTitleValue(e.target.value)}
+              placeholder={
+                language === "en"
+                  ? "Enter Your Title..."
+                  : "Masukan Judul Catatan..."
+              }
+              onChange={titleValueHandler}
             />
             <textarea
               type="text"
               className="w-full h-12 bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
-              placeholder={language === "en" ? "Enter Your Description..." : "Masukan Deskripsi Catatan..."}
-              onChange={(e) => setBodyValue(e.target.value)}
+              placeholder={
+                language === "en"
+                  ? "Enter Your Description..."
+                  : "Masukan Deskripsi Catatan..."
+              }
+              onChange={bodyValueHandler}
             />
             <div className="flex justify-end mt-10">
               <button

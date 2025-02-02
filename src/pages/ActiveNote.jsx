@@ -14,7 +14,7 @@ const ActiveNote = () => {
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const {language} = useContext(GlobalState)
+  const { language } = useContext(GlobalState);
 
   const navigate = useNavigate();
 
@@ -45,9 +45,9 @@ const ActiveNote = () => {
 
   useEffect(() => {
     const filterNotes = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       const getFetch = await getActiveNotes();
-      setIsLoading(false)
+      setIsLoading(false);
       const searchNote = getFetch.data.filter((note) =>
         note.title.toLowerCase().includes(keyword.toLowerCase())
       );
@@ -61,7 +61,10 @@ const ActiveNote = () => {
   return (
     <div className="mx-20 pb-20">
       <Header />
-      <LineBar text={language === "en" ? "Active Notes" : "Catatan Aktif"} bgColor="bg-[#8BD3DD]"/>
+      <LineBar
+        text={language === "en" ? "Active Notes" : "Catatan Aktif"}
+        bgColor="bg-[#8BD3DD]"
+      />
       <SearchBar setKeyword={setKeyword} />
       {isLoading ? (
         <Loading />

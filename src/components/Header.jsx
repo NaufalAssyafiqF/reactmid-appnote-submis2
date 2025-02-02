@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import BtnNavigation from "./BtnNavigation";
-import LineBar from "./LineBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserLogged } from "../utils/fetch-data";
 import UserTopbar from "./UserTopbar";
@@ -31,14 +30,26 @@ const Header = () => {
         >
           {language === "en" ? "My Notes" : "Catan Saya"}
         </h1>
-        <h2 className={`font-comfortaa text-5xl ${theme === "light" ? "text-black" : "text-[#ffffff]"} transition duration-300`}>
+        <h2
+          className={`font-comfortaa text-5xl ${
+            theme === "light" ? "text-black" : "text-[#ffffff]"
+          } transition duration-300`}
+        >
           {language === "en" ? "Smart Notes" : "Catatan pintar"}, <br />
-          {language === "en" ? "High Productivity." : "Tingkatkan Produktifitas"}
+          {language === "en"
+            ? "High Productivity."
+            : "Tingkatkan Produktifitas"}
         </h2>
         {pathname !== "/login" && pathname !== "/register" ? (
           <div className="flex gap-x-10 mt-8 font-ibmPlexMono">
-            <BtnNavigation path="/" text={language === "en" ? "Active Note" : "Catatan Aktif"} />
-            <BtnNavigation path="/archive" text={language === "en" ? "Archive Note" : "Catatan arsip"} />
+            <BtnNavigation
+              path="/"
+              text={language === "en" ? "Active Note" : "Catatan Aktif"}
+            />
+            <BtnNavigation
+              path="/archive"
+              text={language === "en" ? "Archive Note" : "Catatan arsip"}
+            />
           </div>
         ) : null}
       </div>

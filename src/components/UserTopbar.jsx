@@ -4,10 +4,14 @@ import { MdOutlineLightMode, MdOutlineNightlightRound } from "react-icons/md";
 import { IoMdExit } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import GlobalState from "../contexts/GlobalState";
+import PropTypes from "prop-types";
 
 const UserTopbar = ({ getData }) => {
-  const {theme, themeHandler, languageHandler} = useContext(GlobalState);
+  const { theme, themeHandler, languageHandler } = useContext(GlobalState);
   const navigate = useNavigate();
+
+  console.log(getData);
+  
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -17,7 +21,10 @@ const UserTopbar = ({ getData }) => {
   return (
     <div className="flex items-center space-x-8 top-5 right-0 fixed mr-20 z-10">
       <div className="flex space-x-4 text-3xl">
-        <div className="border-2 border-black p-1 rounded-lg cursor-pointer transition duration-300 shadow-[9px_5px_0px_0px_rgba(0,_0,_0,_0.8)] hover:shadow-none hover:translate-x-1 hover:translate-y-1] bg-[#d9d9d9]" onClick={languageHandler}>
+        <div
+          className="border-2 border-black p-1 rounded-lg cursor-pointer transition duration-300 shadow-[9px_5px_0px_0px_rgba(0,_0,_0,_0.8)] hover:shadow-none hover:translate-x-1 hover:translate-y-1] bg-[#d9d9d9]"
+          onClick={languageHandler}
+        >
           <IoLanguage />
         </div>
         <div
@@ -42,6 +49,10 @@ const UserTopbar = ({ getData }) => {
       </div>
     </div>
   );
+};
+
+UserTopbar.propTypes = {
+  getData: PropTypes.objectOf(PropTypes.string),
 };
 
 export default UserTopbar;

@@ -1,11 +1,7 @@
-import React, { useContext } from "react";
-import { useLocation } from "react-router-dom";
-import GlobalState from "../contexts/GlobalState";
+import React from "react";
+import PropTypes from "prop-types";
 
 const LineBar = ({ text, bgColor }) => {
-  const { pathname } = useLocation();
-  const { language } = useContext(GlobalState);
-
   return (
     <div className="mt-20 mb-10 z-1">
       <p
@@ -16,6 +12,11 @@ const LineBar = ({ text, bgColor }) => {
       <hr className=" border-2 border-black rounded-full" />
     </div>
   );
+};
+
+LineBar.propTypes = {
+  text: PropTypes.string,
+  bgColor: PropTypes.string,
 };
 
 export default LineBar;

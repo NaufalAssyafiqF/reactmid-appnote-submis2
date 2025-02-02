@@ -1,5 +1,5 @@
-import React from 'react'
-import { Oval } from 'react-loader-spinner';
+import React from "react";
+import { Oval } from "react-loader-spinner";
 
 const Loading = () => {
   return (
@@ -13,10 +13,9 @@ const Loading = () => {
         ariaLabel="oval-loading"
         wrapperStyle={{}}
         wrapperClass=""
-        
       />
     </div>
   );
-}
+};
 
-export default Loading
+export default Loading;

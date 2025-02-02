@@ -14,7 +14,7 @@ const ArchiveNote = () => {
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const {language} = useContext(GlobalState)
+  const { language } = useContext(GlobalState);
 
   const navigate = useNavigate();
 
@@ -28,19 +28,17 @@ const ArchiveNote = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    
-
     const getNoteData = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       const getFetch = await getArchivedNotes();
-      setIsLoading(false)
+      setIsLoading(false);
 
       if (getFetch.error) {
         alert("you are not logged in yet, please login first");
         return navigate("/login");
       }
 
-      setActiveNotes(getFetch.data); 
+      setActiveNotes(getFetch.data);
     };
 
     getNoteData();
@@ -48,12 +46,13 @@ const ArchiveNote = () => {
 
   useEffect(() => {
     const filterNotes = async () => {
-      isLoading(false)
-      const getFetch = await getArchivedNotes(); 
+      setIsLoading(true);
+      const getFetch = await getArchivedNotes();
+      setIsLoading(false)
       const searchNote = getFetch.data.filter((note) =>
         note.title.toLowerCase().includes(keyword.toLowerCase())
       );
-      setActiveNotes(searchNote); 
+      setActiveNotes(searchNote);
     };
 
     handleQuery(keyword);
@@ -63,7 +62,10 @@ const ArchiveNote = () => {
   return (
     <div className="mx-20 pb-20">
       <Header />
-      <LineBar text={language === "en" ? "Archive Notes" : "Catatan Arsip"} bgColor="bg-[#FAAE2B]" />
+      <LineBar
+        text={language === "en" ? "Archive Notes" : "Catatan Arsip"}
+        bgColor="bg-[#FAAE2B]"
+      />
       <SearchBar setKeyword={setKeyword} />
       {isLoading ? (
         <Loading />

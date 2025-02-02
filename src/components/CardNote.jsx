@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 const CardNote = ({ note }) => {
   const { pathname } = useLocation();
   const textDate = showFormattedDate(note.createdAt);
+  
   return (
     <Link
       to={`/view/${note.id}`}

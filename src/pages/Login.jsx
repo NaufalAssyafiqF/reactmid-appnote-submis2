@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import { login, putAccessToken } from "../utils/fetch-data";
+import useInput from "../hooks/useInput";
 
 const Login = () => {
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+  const [emailValue, emailValueHandler] = useInput("");
+  const [passwordValue, passwordValueHandler] = useInput("");
 
   const navigate = useNavigate();
 
@@ -49,13 +50,13 @@ const Login = () => {
               type="email"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your email..."
-              onChange={(e) => setEmailValue(e.target.value)}
+              onChange={emailValueHandler}
             />
             <input
               type="password"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your password..."
-              onChange={(e) => setPasswordValue(e.target.value)}
+              onChange={passwordValueHandler}
             />
             <div className="flex justify-end mt-10">
               <button

@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../utils/fetch-data";
+import useInput from "../hooks/useInput";
 
 const Register = () => {
-  const [nameValue, setNameValue] = useState("");
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
-  const [password2Value, setPassword2Value] = useState("");
+  const [nameValue, nameValuehandler] = useInput("");
+  const [emailValue, emailValueHandler] = useInput("");
+  const [passwordValue, passwordValueHandler] = useInput("");
+  const [password2Value, password2ValueHandler] = useInput("");
 
   const navigate = useNavigate();
 
@@ -56,25 +57,25 @@ const Register = () => {
               type="text"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your Name..."
-              onChange={(e) => setNameValue(e.target.value)}
+              onChange={nameValuehandler}
             />
             <input
               type="email"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your Email..."
-              onChange={(e) => setEmailValue(e.target.value)}
+              onChange={emailValueHandler}
             />
             <input
               type="password"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Enter Your Password..."
-              onChange={(e) => setPasswordValue(e.target.value)}
+              onChange={passwordValueHandler}
             />
             <input
               type="password"
               className="w-full bg-[#D9D9D9] border-b-4 p-2 focus:outline-none placeholder:text-black placeholder:font-ibmPlexMono placeholder:font-medium placeholder:text-base text-base font-ibmPlexMono font-medium  border-black mt-10"
               placeholder="Confirm Your Password..."
-              onChange={(e) => setPassword2Value(e.target.value)}
+              onChange={password2ValueHandler}
             />
 
             <div className="flex justify-end mt-10">
