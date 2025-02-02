@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import CardNote from "../components/CardNote";
 import AddButton from "../components/AddButton";
-// import { getActiveNotes } from "../utils/local-data";
 import { getActiveNotes } from "../utils/fetch-data";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
+import Loading from "../components/Loading";
+import LineBar from "../components/LineBar";
+import GlobalState from "../contexts/GlobalState";
 
 const ActiveNote = () => {
   const [activeNotes, setActiveNotes] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const {language} = useContext(GlobalState)
 
   const navigate = useNavigate();
 
@@ -25,14 +29,15 @@ const ActiveNote = () => {
 
   useEffect(() => {
     const getNoteData = async () => {
+      setIsLoading(true);
       const getFetch = await getActiveNotes();
-
+      setIsLoading(false);
       if (getFetch.error) {
         alert("you are not logged in yet, please login first");
         return navigate("/login");
       }
 
-      setActiveNotes(getFetch.data); // Ambil data awal hanya sekali
+      setActiveNotes(getFetch.data);
     };
 
     getNoteData();
@@ -40,11 +45,13 @@ const ActiveNote = () => {
 
   useEffect(() => {
     const filterNotes = async () => {
-      const getFetch = await getActiveNotes(); // Ambil data dari fungsi getActiveNotes
+      setIsLoading(true)
+      const getFetch = await getActiveNotes();
+      setIsLoading(false)
       const searchNote = getFetch.data.filter((note) =>
         note.title.toLowerCase().includes(keyword.toLowerCase())
       );
-      setActiveNotes(searchNote); // Update state dengan hasil filter
+      setActiveNotes(searchNote);
     };
 
     handleQuery(keyword);
@@ -54,16 +61,21 @@ const ActiveNote = () => {
   return (
     <div className="mx-20 pb-20">
       <Header />
+      <LineBar text={language === "en" ? "Active Notes" : "Catatan Aktif"} bgColor="bg-[#8BD3DD]"/>
       <SearchBar setKeyword={setKeyword} />
-      <div className="flex flex-wrap gap-x-8 gap-y-8">
-        {activeNotes.map((note) => (
-          <CardNote key={note.id} note={note} />
-        ))}
-      </div>
-      {!activeNotes.length && (
-        <p className="text-center w-full font-ibmPlexMono font-medium">
-          No Note Found
-        </p>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-wrap gap-x-8 gap-y-8">
+          {activeNotes.map((note) => (
+            <CardNote key={note.id} note={note} />
+          ))}
+          {!activeNotes.length && (
+            <p className="text-center w-full font-ibmPlexMono font-medium">
+              No Note Found
+            </p>
+          )}
+        </div>
       )}
       <AddButton />
     </div>

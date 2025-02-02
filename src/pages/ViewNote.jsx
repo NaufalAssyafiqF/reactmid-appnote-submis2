@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiSolidArchiveIn, BiSolidArchiveOut } from "react-icons/bi";
 import { MdDeleteForever } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,14 +10,15 @@ import {
 } from "../utils/fetch-data";
 import { showFormattedDate } from "../utils";
 import Header from "../components/Header";
+import LineBar from "../components/LineBar";
+import GlobalState from "../contexts/GlobalState";
 
 const ViewNote = () => {
   const { id } = useParams();
   const [getNoteByid, setGetNoteByid] = useState({});
+  const { language } = useContext(GlobalState);
   const navigate = useNavigate();
   const textDate = showFormattedDate(getNoteByid.createdAt);
-
-  console.log(getNoteByid);
 
   const onDeleteHandler = async () => {
     await deleteNote(id);
@@ -51,15 +52,25 @@ const ViewNote = () => {
   return (
     <div className="mx-20 pb-20">
       <Header />
+      <LineBar
+        text={language === "en" ? "View Note" : "Lihat Catatan"}
+        bgColor="bg-[#8BD3DD]"
+      />
       <div className="max-w-[90%] mx-auto h-fit flex flex-col items-start  rounded-lg">
         <div
           className={`flex items-center rounded-t-lg border-x-2 border-t-2 border-black  w-fit p-1 ${
             getNoteByid.archived ? "bg-[#FAAE2B]" : "bg-[#8BD3DD]"
           } `}
         >
-          <p className="text-black font-comfortaa font-medium text-lg px-2 py-3">
-            {getNoteByid.archived ? "Archived Note" : "Active Note"}
-          </p>
+          {language === "en" ? (
+            <p className="text-black font-comfortaa font-medium text-lg px-2 py-3">
+              {getNoteByid.archived ? "Archive Note" : "Active Note"}
+            </p>
+          ) : (
+            <p className="text-black font-comfortaa font-medium text-lg px-2 py-3">
+              {getNoteByid.archived ? "Catatan Arsip" : "Catatan Aktif"}
+            </p>
+          )}
         </div>
         <div
           className="w-full h-full bg-[#D9D9D9] rounded-lg border-2 border-black px-5 pt-4 pb-12 shadow-[9px_5px_0px_0px_rgba(0,_0,_0,_0.8)]"

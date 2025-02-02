@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ActiveNote from "./pages/ActiveNote";
 import { BrowserRouter, Route, Routes, useRoutes } from "react-router-dom";
 import AddNote from "./pages/AddNote";
@@ -7,17 +7,30 @@ import ArchiveNote from "./pages/ArchiveNote";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ThemeContext from "./contexts/ThemeContext";
+import GlobalState from "./contexts/GlobalState";
 
 function App() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme"));
+  const [language, setLanguage] = useState(localStorage.getItem("language"));
 
   const themeHandler = () => {
     setTheme((prev) => (prev == "light" ? "dark" : "light"));
   };
 
+  const languageHandler = () => {
+    setLanguage((prev) => (prev == "en" ? "id" : "en"));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("language", language);
+  }, [language]);
+
   return (
-    <ThemeContext.Provider value={{ theme, themeHandler }}>
+    <GlobalState.Provider value={{ theme, themeHandler, language, languageHandler }}>
       <main className={theme === "light" ? "bg-light" : "bg-dark"}>
         <Routes>
           <Route path="/" element={<ActiveNote />} />
@@ -29,7 +42,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-    </ThemeContext.Provider>
+    </GlobalState.Provider>
   );
 }
 
